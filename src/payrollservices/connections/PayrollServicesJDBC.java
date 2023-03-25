@@ -2,6 +2,8 @@ package payrollservices.connections;
 
 import java.sql.*;
 
+import javax.security.auth.callback.ConfirmationCallback;
+
 import payrollservices.model.EmployeePayrollPojo;
 
 public class PayrollServicesJDBC {
@@ -33,9 +35,13 @@ public class PayrollServicesJDBC {
 		statementIn.setInt(9, pojo.getDeductions());
 		statementIn.setInt(10, pojo.getTaxAblePay());
 		statementIn.setInt(11, pojo.getTax());
-		
-		int confirm = statementIn.executeUpdate();
-		System.out.println(confirm==1? "Added ":" Error while Adding ");
+		try {
+			int confirm = statementIn.executeUpdate();
+			System.out.println(confirm==1? "Added ":" Error while Adding ");
+			connection.commit();
+			}catch (Exception e) {
+				connection.rollback();
+			}
 		statement.close();
 		connection.close();
 
@@ -55,11 +61,19 @@ public class PayrollServicesJDBC {
 		statementIn.setInt(9, pojo.getDeductions());
 		statementIn.setDouble(10, pojo.getTaxAblePay()*1.2);
 		statementIn.setDouble(11, pojo.getTax()*1.1);
+		try {
+		
 		
 		int confi = statementIn.executeUpdate();
 		System.out.println(confi==1? "Added ":" Error while Adding ");
+		connection.commit();
+		}catch (Exception e) {
+			connection.rollback();
+		}
+		
 		statement.close();
 		connection.close();
+		
 		
 		//total and average netpay of female
 		String queryOne = "select avg(NetPay) as Average_pay, sum(NetPay) as Total_pay from employee_payroll where Gender = 'F' group by Gender; ";
