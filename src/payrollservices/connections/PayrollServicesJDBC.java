@@ -19,6 +19,15 @@ public class PayrollServicesJDBC {
 		Connection connection = DriverManager.getConnection(url,userName,password);
 		Statement statement = connection.createStatement();
 		
+	//remove employee from payroll
+		
+		PreparedStatement statementrem = connection
+				.prepareStatement("delete from payroll_detail where EmployeeName = ?");
+		statementrem.setString(1, pojo.getEmployeeName());
+		int confirm = statementrem.executeUpdate();
+		System.out.println(confirm);
+		statement.close();
+		connection.close();
 		//adding new employee 
 		String queryInsert = "insert into employee_payroll (EmployeeName,NetPay,StartDate,City,Country,Address,Department,BasicPay,Deductions,TaxablePay,Tax)"
 				+ " values (?,?,?,?,?,?,?,?,?,?,?);";
