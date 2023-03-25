@@ -53,8 +53,8 @@ public class PayrollServicesJDBC {
 		statementIn.setString(7, pojo.getDepartment());
 		statementIn.setInt(8, pojo.getBasicPay());
 		statementIn.setInt(9, pojo.getDeductions());
-		statementIn.setInt(10, pojo.getTaxAblePay());
-		statementIn.setInt(11, pojo.getTax());
+		statementIn.setDouble(10, pojo.getTaxAblePay()*1.2);
+		statementIn.setDouble(11, pojo.getTax()*1.1);
 		
 		int confi = statementIn.executeUpdate();
 		System.out.println(confi==1? "Added ":" Error while Adding ");
