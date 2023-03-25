@@ -38,7 +38,28 @@ public class PayrollServicesJDBC {
 		System.out.println(confirm==1? "Added ":" Error while Adding ");
 		statement.close();
 		connection.close();
+
+		//adding new employee to payroll detail 
+		String queryInsertTwo = "insert into payroll_detail (EmployeeName,NetPay,StartDate,City,Country,Address,Department,BasicPay,Deductions,TaxablePay,Tax)"
+				+ " values (?,?,?,?,?,?,?,?,?,?,?);";
 		
+		PreparedStatement statementInTwo = connection.prepareStatement(queryInsert);
+		statementIn.setString(1, pojo.getEmployeeName());
+		statementIn.setInt(2, pojo.getNetPay());
+		statementIn.setString(3, pojo.getStartDate());
+		statementIn.setString(4, pojo.getCity());
+		statementIn.setString(5, pojo.getCountry());
+		statementIn.setString(6, pojo.getAddress());
+		statementIn.setString(7, pojo.getDepartment());
+		statementIn.setInt(8, pojo.getBasicPay());
+		statementIn.setInt(9, pojo.getDeductions());
+		statementIn.setInt(10, pojo.getTaxAblePay());
+		statementIn.setInt(11, pojo.getTax());
+		
+		int confi = statementIn.executeUpdate();
+		System.out.println(confi==1? "Added ":" Error while Adding ");
+		statement.close();
+		connection.close();
 		
 		//total and average netpay of female
 		String queryOne = "select avg(NetPay) as Average_pay, sum(NetPay) as Total_pay from employee_payroll where Gender = 'F' group by Gender; ";
